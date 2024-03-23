@@ -55,4 +55,28 @@ public class UserController {
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
     }
+
+
+
+    @PostMapping("/user/login")
+    public ResponseEntity<?> loginUser(@RequestBody Map<String, String> loginData) {
+        String email = loginData.get("email");
+        String password = loginData.get("password");
+
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            return new ResponseEntity<>(Map.of("error", "User not found"), HttpStatus.OK);
+        }
+
+        if (!password.equals(user.getPassword())) {
+            return new ResponseEntity<>(Map.of("error", "Invalid password"), HttpStatus.OK);
+        }
+
+        String token = "your_token";
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("user", user);
+        response.put("token", token);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
 }
