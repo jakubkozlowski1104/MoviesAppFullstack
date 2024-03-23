@@ -69,21 +69,20 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        'http://localhost:8080/user/register/check',
-        {
+      await axios
+        .post('api/user/register/check', {
           username: inputs.name,
           email: inputs.email,
           password: inputs.password,
-        }
-      );
-      console.log(response);
-      let status = response.data.status;
-      if (status <= 3 && status >= 1) {
-        checkIfDataAlreadyExist(status);
-      } else if (status === 0) {
-        console.log('created user');
-      }
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.status === 201) {
+            console.log('Użytkownik został pomyślnie zarejestrowany');
+          } else if (response.status === 200) {
+            checkIfDataAlreadyExist(response.data.status);
+          }
+        });
     } catch (error) {
       console.error('An error occurred:', error);
     }
