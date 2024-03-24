@@ -1,23 +1,20 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState } from 'react';
 import axios from 'axios';
 import { StyledLogin, StyledCenter, StyledForm } from './LogIn.styles';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCircleExclamation,
   faLock,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
-// import { jwtDecode } from 'jwt-decode';
 
-const LogIn = ({ checkIsUserAdmin }) => {
+const LogIn = () => {
   const [inputs, setInputs] = useState({});
   const [isLogIn, setIsLogIn] = useState(false);
   const [isloginwrong, setIsLoginWrong] = useState(false);
-  // const [userId, setUserId] = useState(false);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -33,16 +30,15 @@ const LogIn = ({ checkIsUserAdmin }) => {
         password: inputs.password,
       })
       .then((response) => {
-        console.log(response);
         if (response.status === 202) {
+          console.log(response.data.token);
           localStorage.setItem('token', response.data.token);
           console.log(localStorage);
-          // setUserId(response.data.user.id);
-          checkIsUserAdmin(response.data.user.id);
           setIsLogIn(true);
           setIsLoginWrong(false);
         } else {
           setIsLoginWrong(true);
+          setIsLogIn(false);
         }
       })
       .catch((error) => {
@@ -53,7 +49,7 @@ const LogIn = ({ checkIsUserAdmin }) => {
 
   const changePath = () => {
     if (isLogIn) {
-      // navigate('/');
+      navigate('/');
     }
   };
 
