@@ -1,31 +1,34 @@
-// W komponencie Navbar.js
-import { NavLink } from 'react-router-dom';
+import { StyledNav, StyledNavLink } from './Navbar.styles';
 
-const Navbar = () => {
-  return (
-    <nav>
-      <ul>
-        <li>
-          <NavLink to="/">
-            <button>Home</button>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/profile">
-            <button>profile</button>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/login">
-            <button>Log in</button>
-          </NavLink>
-          <NavLink to="/signin">
-            <button>Sign in</button>
-          </NavLink>
-        </li>
-      </ul>
-    </nav>
-  );
+export const Navbar = () => {
+ return (
+    <StyledNav>
+      <div className="center-content">
+        <ul>
+          <li>
+            <StyledNavLink to="/">
+              Home
+            </StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/profile">
+              What&apos;s on
+            </StyledNavLink>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <StyledNavLink to="/login">
+              Log in
+            </StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/signup">
+              Sign up
+            </StyledNavLink>
+          </li>
+        </ul>
+      </div>
+    </StyledNav>
+ );
 };
-
-export default Navbar;

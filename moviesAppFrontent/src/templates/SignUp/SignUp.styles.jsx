@@ -16,17 +16,6 @@ export const StyledCenter = styled.div`
     display: flex;
     justify-content: center;
   }
-
-  .wrapper::after {
-    content: '';
-    position: fixed;
-    top: 10%;
-    right: 0%;
-    width: 600px;
-    height: 50px;
-    background-color: white;
-    overflow: hidden;
-  }
 `;
 
 export const StyledLogin = styled.div`
