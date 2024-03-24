@@ -72,7 +72,7 @@ public class UserController {
             return new ResponseEntity<>(Map.of("error", "Invalid password"), HttpStatus.OK);
         }
 
-        String token = "your_token";
+        String token = "token-" + user.getUsername();
 
         Map<String, Object> response = new HashMap<>();
         response.put("user", user);
