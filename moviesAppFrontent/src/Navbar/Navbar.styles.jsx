@@ -22,9 +22,11 @@ export const StyledNav = styled.nav`
       list-style: none;
       padding: 0;
 
-      li {
+      li,
+      button {
         text-transform: uppercase;
         margin-right: 10px;
+        font-size: 1.1rem;
         background: none;
         border: none;
         color: white;
