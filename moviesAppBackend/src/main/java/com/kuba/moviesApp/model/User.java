@@ -26,11 +26,15 @@ public class User {
     @Column(name = "is_admin")
     private boolean isAdmin;
 
+    @Column(name = "wallet")
+    private double wallet;
+
     public User(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;
-        this.isAdmin = false;
+        this.isAdmin = false; // Domyślnie nie jest administratorem.
+        this.wallet = 0.0; // Domyślnie ustawiamy portfel na 0.
     }
-
+    // Getters and setters
 }

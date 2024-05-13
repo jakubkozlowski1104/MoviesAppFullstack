@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @RestController
@@ -36,6 +37,27 @@ public class UserController {
             return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Error deleting user", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/user/update/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody Map<String, String> updateData) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (updateData.containsKey("username")) {
+                user.setUsername(updateData.get("username"));
+            }
+            if (updateData.containsKey("email")) {
+                user.setEmail(updateData.get("email"));
+            }
+            if (updateData.containsKey("password")) {
+                user.setPassword(updateData.get("password"));
+            }
+            userRepository.save(user);
+            return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("User with given ID not found", HttpStatus.NOT_FOUND);
         }
     }
     @PostMapping("/user/register/check")
