@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   StyledLogin,
   StyledCenter,
@@ -28,7 +28,7 @@ const SignUp = () => {
   const [dataExistError, setIsDataExist] = useState('');
   const [canSignUp, setCanSignUp] = useState(false);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const validateInputs = () => {
@@ -41,8 +41,6 @@ const SignUp = () => {
         email: isEmailValid ? 'true' : 'false',
         password: isPasswordValid ? 'true' : 'false',
       });
-
-      console.log(isNameValid, isEmailValid, isPasswordValid);
 
       setCanSignUp(isNameValid && isEmailValid && isPasswordValid);
     };
@@ -57,11 +55,11 @@ const SignUp = () => {
   };
 
   const checkIfDataAlreadyExist = (status) => {
-    if (status === 3) {
+    if (status === 1) {
       setIsDataExist('email and name already exist');
     } else if (status === 2) {
       setIsDataExist('email already exist');
-    } else if (status === 1) {
+    } else if (status === 3) {
       setIsDataExist('name already exist');
     } else {
       setIsDataExist('');
@@ -77,9 +75,9 @@ const SignUp = () => {
           password: inputs.password,
         })
         .then((response) => {
-          console.log(response);
           if (response.status === 201) {
             console.log('Użytkownik został pomyślnie zarejestrowany');
+            navigate('/');
           } else if (response.status === 200) {
             checkIfDataAlreadyExist(response.data.status);
           }
@@ -91,7 +89,6 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(canSignUp);
     if (canSignUp) {
       createUser();
     }
@@ -139,9 +136,9 @@ const SignUp = () => {
               <p>Already have an account?</p>
               <p
                 className="p-navigate"
-                // onClick={() => {
-                //   navigate('/user/login');
-                // }}
+                onClick={() => {
+                  navigate('/login');
+                }}
               >
                 {' '}
                 Login{' '}
