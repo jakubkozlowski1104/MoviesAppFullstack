@@ -5,11 +5,7 @@ import com.kuba.moviesApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +26,18 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @DeleteMapping("/user/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        try {
+            if (!userRepository.existsById(id)) {
+                return new ResponseEntity<>("User with given ID does not exist", HttpStatus.NOT_FOUND);
+            }
+            userRepository.deleteById(id);
+            return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error deleting user", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @PostMapping("/user/register/check")
     public ResponseEntity<Map<String, Object>> canSignUp(@RequestBody User newUser) {
         boolean emailExists = userRepository.existsByEmail(newUser.getEmail());
