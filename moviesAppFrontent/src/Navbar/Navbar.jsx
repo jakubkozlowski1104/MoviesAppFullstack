@@ -18,7 +18,11 @@ export const Navbar = () => {
             <StyledNavLink to="/profile">What&apos;s on</StyledNavLink>
           </li>
           {console.log(localStorage.getItem('isAdmin'))}
-          {localStorage.getItem('isAdmin') === 'true' && <li>siema</li>}
+          {localStorage.getItem('isAdmin') === 'true' && (
+            <li>
+              <StyledNavLink to="/admin-panel">ADMIN PANEL</StyledNavLink>
+            </li>
+          )}
         </ul>
         <ul>
           {localStorage.getItem('token') === null ? (

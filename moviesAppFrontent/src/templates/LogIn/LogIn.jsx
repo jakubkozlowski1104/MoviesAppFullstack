@@ -31,6 +31,7 @@ const LogIn = () => {
       })
       .then((response) => {
         if (response.status === 202) {
+          console.log(response);
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('isAdmin', response.data.user.admin);
           setIsLogIn(true);

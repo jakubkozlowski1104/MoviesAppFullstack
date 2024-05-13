@@ -26,7 +26,7 @@ const SignUp = () => {
     password: 'none',
   });
   const [dataExistError, setIsDataExist] = useState('');
-  // const [canSignUp, setCanSignUp] = useState(false);
+  const [canSignUp, setCanSignUp] = useState(false);
 
   // const navigate = useNavigate();
 
@@ -42,7 +42,9 @@ const SignUp = () => {
         password: isPasswordValid ? 'true' : 'false',
       });
 
-      // setCanSignUp(isNameValid && isEmailValid && isPasswordValid);
+      console.log(isNameValid, isEmailValid, isPasswordValid);
+
+      setCanSignUp(isNameValid && isEmailValid && isPasswordValid);
     };
 
     validateInputs();
@@ -66,8 +68,7 @@ const SignUp = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const createUser = async () => {
     try {
       await axios
         .post('api/user/register/check', {
@@ -85,6 +86,14 @@ const SignUp = () => {
         });
     } catch (error) {
       console.error('An error occurred:', error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(canSignUp);
+    if (canSignUp) {
+      createUser();
     }
   };
 
