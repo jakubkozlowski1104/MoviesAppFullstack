@@ -3,6 +3,9 @@ package com.kuba.moviesApp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "MOVIES")
 @Getter
@@ -17,8 +20,9 @@ public class Movie {
     @Column(name = "name")
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "category")
-    private String category;
+    private Category category;
 
     @Column(name = "director")
     private String director;
@@ -26,7 +30,6 @@ public class Movie {
     @Column(name = "duration")
     private int duration; // Czas trwania filmu w minutach
 
-    // Możesz dodać więcej pól, np.:
     @Column(name = "release_year")
     private int releaseYear; // Rok wydania filmu
 
@@ -36,8 +39,19 @@ public class Movie {
     @Column(name = "rating")
     private double rating; // Ocena filmu
 
+    @Column(name = "price")
+    private double price; // Ocena filmu
+
+    @Lob
+    @Column(name = "photo")
+    private byte[] photo; // Zdjęcie filmu (przechowywane jako tablica bajtów)
+
+    @OneToMany(mappedBy = "movie")
+    private List<PurchasedMovie> purchasedByUsers = new ArrayList<>();
+
+
     // Konstruktor
-    public Movie(String name, String category, String director, int duration) {
+    public Movie(String name, Category category, String director, int duration) {
         this.name = name;
         this.category = category;
         this.director = director;
