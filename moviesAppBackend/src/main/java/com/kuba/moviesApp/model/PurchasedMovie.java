@@ -3,6 +3,8 @@ package com.kuba.moviesApp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "PURCHASED_MOVIES")
 @Getter
@@ -21,6 +23,8 @@ public class PurchasedMovie {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
+    @Column(name = "order_date")
+    private LocalDate orderDate;
     // Konstruktor
     public PurchasedMovie(User user, Movie movie) {
         this.user = user;

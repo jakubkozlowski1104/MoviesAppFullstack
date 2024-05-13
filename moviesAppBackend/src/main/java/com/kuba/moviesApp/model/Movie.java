@@ -42,9 +42,8 @@ public class Movie {
     @Column(name = "price")
     private double price; // Ocena filmu
 
-    @Lob
-    @Column(name = "photo")
-    private byte[] photo; // Zdjęcie filmu (przechowywane jako tablica bajtów)
+    @Column(name = "photo_path", length = 255) // Określ długość maksymalną ścieżki pliku
+    private String photoPath; // Zdjęcie filmu (ścieżka do pliku)
 
     @OneToMany(mappedBy = "movie")
     private List<PurchasedMovie> purchasedByUsers = new ArrayList<>();
