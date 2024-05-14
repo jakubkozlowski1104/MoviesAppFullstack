@@ -20,4 +20,8 @@ public class MovieService {
     public Page<Movie> getAllMovies(Pageable pageable) {
         return movieRepository.findAll(pageable);
     }
+
+    public long countAllMovies() {
+        return movieRepository.count();
+    }
 }

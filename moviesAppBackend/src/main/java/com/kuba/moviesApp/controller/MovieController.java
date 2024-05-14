@@ -33,4 +33,9 @@ public class MovieController {
         Pageable pageable = PageRequest.of(page, size);
         return movieService.getAllMovies(pageable);
     }
+
+    @GetMapping("/count")
+    public long countMovies() {
+        return movieService.countAllMovies();
+    }
 }
