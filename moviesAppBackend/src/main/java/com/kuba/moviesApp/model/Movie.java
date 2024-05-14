@@ -55,7 +55,6 @@ public class Movie {
         this.category = category;
         this.director = director;
         this.duration = duration;
-        // Domyślne wartości dla innych pól
         this.releaseYear = 0;
         this.description = "";
         this.rating = 0.0;
