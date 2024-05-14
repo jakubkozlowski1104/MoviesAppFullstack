@@ -12,7 +12,6 @@ import {
 
 const LogIn = () => {
   const [inputs, setInputs] = useState({});
-  const [isLogIn, setIsLogIn] = useState(false);
   const [isloginwrong, setIsLoginWrong] = useState(false);
   const navigate = useNavigate();
 
@@ -33,12 +32,13 @@ const LogIn = () => {
         if (response.status === 202) {
           console.log(response);
           localStorage.setItem('token', response.data.token);
+          console.log(response.data);
           localStorage.setItem('isAdmin', response.data.user.admin);
-          setIsLogIn(true);
           setIsLoginWrong(false);
+          navigate('/');
+          window.location.reload();
         } else {
           setIsLoginWrong(true);
-          setIsLogIn(false);
         }
       })
       .catch((error) => {
@@ -47,12 +47,11 @@ const LogIn = () => {
       });
   };
 
-  const changePath = () => {
-    if (isLogIn) {
-      navigate('/');
-      window.location.reload();
-    }
-  };
+  // const changePath = () => {
+  //   if (isLogIn) {
+
+  //   }
+  // };
 
   return (
     <StyledCenter>
@@ -96,7 +95,7 @@ const LogIn = () => {
               </div>
               <p className="forgot">Forgot Password?</p>
             </div>
-            <button onClick={changePath()}>Login</button>
+            <button>Login</button>
             <div className="register">
               <p>
                 Dont have an accont?
