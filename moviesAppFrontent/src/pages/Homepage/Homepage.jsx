@@ -2,18 +2,20 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
+import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { StyledCenter } from './Homepage.styles';
 
 const Homepage = () => {
   const [movies, setMovies] = useState([]);
-  // eslint-disable-next-line no-unused-vars
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [sortBy, setSortBy] = useState('price'); // domyślne sortowanie po cenie
+  const [sortDirection, setSortDirection] = useState('asc');
   const pageSize = 15;
 
   useEffect(() => {
     fetchMovies();
-  }, [currentPage]); // Zmiana strony spowoduje pobranie nowych filmów
+  }, [currentPage, sortBy, sortDirection]); // Zmiana strony spowoduje pobranie nowych filmów
 
   useEffect(() => {
     fetchTotalMoviesCount();
@@ -22,9 +24,8 @@ const Homepage = () => {
   const fetchMovies = async () => {
     try {
       const response = await axios.get(
-        `/api/movies?page=${currentPage}&size=${pageSize}`
+        `/api/movies?page=${currentPage}&size=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}`
       );
-      console.log('robi sie');
       setMovies(response.data.content);
     } catch (error) {
       console.error('Błąd pobierania filmów:', error);
@@ -42,13 +43,51 @@ const Homepage = () => {
     }
   };
 
-  // const changePage = () => {
-  //   console.log(totalPages);
-  //   setCurrentPage(2);
-  // };
+  const handleSortBy = (field, direction) => {
+    setSortBy(field);
+    setSortDirection(direction);
+  };
 
   return (
     <StyledCenter>
+      <div className="sort-buttons">
+        <button onClick={() => handleSortBy('price', 'asc')}>
+          CENA
+          <i>
+            <FontAwesomeIcon icon={faArrowUp} />
+          </i>
+        </button>
+        <button onClick={() => handleSortBy('price', 'desc')}>
+          CENA
+          <i>
+            <FontAwesomeIcon icon={faArrowDown} />
+          </i>
+        </button>
+        <button onClick={() => handleSortBy('releaseYear', 'asc')}>
+          ROK
+          <i>
+            <FontAwesomeIcon icon={faArrowUp} />
+          </i>
+        </button>
+        <button onClick={() => handleSortBy('releaseYear', 'desc')}>
+          ROK
+          <i>
+            <FontAwesomeIcon icon={faArrowDown} />
+          </i>
+        </button>
+        <button onClick={() => handleSortBy('rating', 'asc')}>
+          OCENY
+          <i>
+            <FontAwesomeIcon icon={faArrowUp} />
+          </i>
+        </button>
+        <button onClick={() => handleSortBy('rating', 'desc')}>
+          OCENY
+          <i>
+            <FontAwesomeIcon icon={faArrowDown} />
+          </i>
+        </button>
+      </div>
       <div className="center">
         <ul>
           {movies.map((movie) => (
