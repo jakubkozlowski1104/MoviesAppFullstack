@@ -3,6 +3,7 @@ package com.kuba.moviesApp.controller;
 import com.kuba.moviesApp.model.Movie;
 import com.kuba.moviesApp.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,10 +30,13 @@ public class MovieController {
     @GetMapping
     public Page<Movie> getAllMovies(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "15") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "15") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
         return movieService.getAllMovies(pageable);
     }
+
 
     @GetMapping("/count")
     public long countMovies() {
