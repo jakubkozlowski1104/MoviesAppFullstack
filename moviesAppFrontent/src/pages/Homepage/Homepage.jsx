@@ -42,41 +42,58 @@ const Homepage = () => {
     }
   };
 
-  const changePage = () => {
-    console.log(totalPages);
-    setCurrentPage(2);
-  };
+  // const changePage = () => {
+  //   console.log(totalPages);
+  //   setCurrentPage(2);
+  // };
 
   return (
     <StyledCenter>
-      <ul>
-        {movies.map((movie) => (
-          <li key={movie.id}>
-            <div className="img-info">
-              <img src={movie.photoPath} alt={movie.name} />
-              <div className="rating">
-                <i className="icon">
-                  <FontAwesomeIcon icon={faStar} />
-                </i>
-                <div className="rate">{movie.rating}%</div>
+      <div className="center">
+        <ul>
+          {movies.map((movie) => (
+            <li key={movie.id}>
+              <div className="img-info">
+                <img src={movie.photoPath} alt={movie.name} />
+                <div className="rating">
+                  <i className="icon">
+                    <FontAwesomeIcon icon={faStar} />
+                  </i>
+                  <div className="rate">{movie.rating}%</div>
+                </div>
+                <div className="price">{movie.price} PLN</div>
               </div>
-              <div className="price">{movie.price} PLN</div>
-            </div>
 
-            <div className="info">
-              <div className="name">
-                {movie.name} ({movie.releaseYear})
+              <div className="info">
+                <div className="name">
+                  {movie.name} ({movie.releaseYear})
+                </div>
+                <div className="more-info">
+                  <div className="year">{movie.releaseYear} |</div>
+                  <div className="category">{movie.category}</div>
+                </div>
               </div>
-              <div className="more-info">
-                <div className="year">{movie.releaseYear} |</div>
-                <div className="category">{movie.category}</div>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      <button onClick={changePage}>changePage</button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="buttons">
+        {totalPages ? (
+          (() => {
+            const buttons = [];
+            for (let idx = 0; idx < totalPages; idx++) {
+              buttons.push(
+                <button onClick={() => setCurrentPage(idx)} key={idx}>
+                  {idx + 1}
+                </button>
+              );
+            }
+            return buttons;
+          })()
+        ) : (
+          <button>siema</button>
+        )}
+      </div>
     </StyledCenter>
   );
 };

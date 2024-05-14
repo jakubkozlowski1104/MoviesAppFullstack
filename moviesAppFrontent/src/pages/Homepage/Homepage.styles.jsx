@@ -3,20 +3,32 @@ import styled from 'styled-components';
 export const StyledCenter = styled.div`
   display: flex;
   justify-content: center;
-  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
   margin-top: 2%;
+  background-color: red;
+
+  .center {
+    display: flex;
+    justify-content: center;
+  }
 
   ul {
-    display: flex;
     width: 80%;
     background-color: white;
+    height: 100%;
+    display: flex;
     flex-wrap: wrap;
-    gap: 3%;
+    gap: 50px; /* Zwiększenie odstępu między elementami */
 
     li {
       list-style: none;
-      flex-basis: 20%;
-      border-radius: 30px;
+      flex-grow: 1; /* Elementy będą się równomiernie rozciągać, aby wypełnić dostępną przestrzeń */
+      max-width: calc(
+        20% - 40px
+      ); /* Maksymalna szerokość każdego elementu, uwzględniając odstępy między nimi */
+      margin-bottom: 20px; /* Odstęp między rzędami */
 
       .img-info {
         transition: 0.3s;
@@ -82,6 +94,20 @@ export const StyledCenter = styled.div`
           }
         }
       }
+    }
+  }
+
+  .buttons {
+    border-radius: 50px;
+    margin: 10px;
+    button {
+      padding: 5px 30px 5px 30px;
+      outline: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #92d6ec;
     }
   }
 
