@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,13 +10,13 @@ const Homepage = () => {
   const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [sortBy, setSortBy] = useState('price'); // domyślne sortowanie po cenie
-  const [sortDirection, setSortDirection] = useState('asc');
+  const [sortBy, setSortBy] = useState(''); // domyślne sortowanie po cenie
+  const [sortDirection, setSortDirection] = useState('');
   const pageSize = 15;
 
   useEffect(() => {
     fetchMovies();
-  }, [currentPage, sortBy, sortDirection]); // Zmiana strony spowoduje pobranie nowych filmów
+  }, [currentPage, sortBy, sortDirection]);
 
   useEffect(() => {
     fetchTotalMoviesCount();
