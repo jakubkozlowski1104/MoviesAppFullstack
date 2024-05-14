@@ -6,19 +6,45 @@ import { StyledCenter } from './Homepage.styles';
 
 const Homepage = () => {
   const [movies, setMovies] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const pageSize = 15;
 
   useEffect(() => {
     fetchMovies();
+  }, [currentPage]); // Zmiana strony spowoduje pobranie nowych filmów
+
+  useEffect(() => {
+    fetchTotalMoviesCount();
   }, []);
 
   const fetchMovies = async () => {
     try {
-      const response = await axios.get('/api/movies');
-      console.log(response);
-      setMovies(response.data);
+      const response = await axios.get(
+        `/api/movies?page=${currentPage}&size=${pageSize}`
+      );
+      console.log('robi sie');
+      setMovies(response.data.content);
     } catch (error) {
       console.error('Błąd pobierania filmów:', error);
     }
+  };
+
+  const fetchTotalMoviesCount = async () => {
+    try {
+      const response = await axios.get(`/api/movies/count`);
+      const totalCount = response.data;
+      const totalPagesTemp = Math.ceil(totalCount / pageSize);
+      setTotalPages(totalPagesTemp);
+    } catch (error) {
+      console.error('Błąd pobierania całkowitej liczby filmów:', error);
+    }
+  };
+
+  const changePage = () => {
+    console.log(totalPages);
+    setCurrentPage(2);
   };
 
   return (
@@ -49,6 +75,8 @@ const Homepage = () => {
           </li>
         ))}
       </ul>
+
+      <button onClick={changePage}>changePage</button>
     </StyledCenter>
   );
 };

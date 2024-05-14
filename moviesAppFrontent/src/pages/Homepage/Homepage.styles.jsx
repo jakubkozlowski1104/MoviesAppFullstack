@@ -87,6 +87,6 @@ export const StyledCenter = styled.div`
 
   .img-info:hover {
     transform: rotate(3deg);
-    opacity: 0.5;
+    opacity: 0.8;
   }
 `;
