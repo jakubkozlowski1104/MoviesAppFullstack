@@ -5,6 +5,7 @@ import Profile from './pages/Profile/Profile';
 import LogIn from './templates/LogIn/LogIn';
 import SignUp from './templates/SignUp/SignUp';
 import AdminPanel from './pages/AdminPanel/AdminPanel';
+import Movie from './pages/Movie/Movie';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/admin-panel" element={<AdminPanel />} />
+          <Route path="/movie/:id" element={<Movie />} />
           {/* Dodaj więcej tras */}
         </Routes>
       </Layout>

@@ -77,7 +77,6 @@ export const StyledCenter = styled.div`
         display: flex;
         justify-content: center;
         position: relative;
-        cursor: pointer;
 
         img {
           border-radius: 10px;
@@ -90,17 +89,24 @@ export const StyledCenter = styled.div`
           left: 50%;
           transform: translate(-50%, -50%);
           width: 80%;
-          height: 40px;
+          height: 80px;
+          line-height: 80px;
           padding: 5px 10px;
           background-color: #d7dbe8;
           border-radius: 5px;
-          font-size: 1.5rem;
-          font-weight: bold;
           display: flex;
-          text-transform: uppercase;
           justify-content: center;
           opacity: 0;
           transition: 0.3s;
+
+          button {
+            background-color: transparent;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+          }
         }
 
         .rating {

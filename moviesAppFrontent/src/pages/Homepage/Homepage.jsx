@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { StyledCenter } from './Homepage.styles';
+import { useNavigate } from 'react-router-dom';
 
 const Homepage = () => {
   const [movies, setMovies] = useState([]);
@@ -13,6 +14,7 @@ const Homepage = () => {
   const [sortBy, setSortBy] = useState(''); // domyślne sortowanie po cenie
   const [sortDirection, setSortDirection] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const pageSize = 15;
 
@@ -53,6 +55,10 @@ const Homepage = () => {
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
+  };
+
+  const goToMovie = (movie) => {
+    navigate(`/movie/${movie.id}`, { state: { movie } });
   };
 
   return (
@@ -111,7 +117,7 @@ const Homepage = () => {
               <div className="img-info">
                 <img src={movie.photoPath} alt={movie.name} />
                 <div className="buy-now">
-                  <p>kup teraz!</p>
+                  <button onClick={() => goToMovie(movie)}>kup teraz!</button>
                 </div>
                 <div className="rating">
                   <i className="icon">
