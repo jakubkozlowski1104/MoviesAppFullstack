@@ -12,11 +12,13 @@ const Homepage = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [sortBy, setSortBy] = useState(''); // domyślne sortowanie po cenie
   const [sortDirection, setSortDirection] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+
   const pageSize = 15;
 
   useEffect(() => {
     fetchMovies();
-  }, [currentPage, sortBy, sortDirection]);
+  }, [currentPage, sortBy, sortDirection, searchQuery]);
 
   useEffect(() => {
     fetchTotalMoviesCount();
@@ -25,7 +27,7 @@ const Homepage = () => {
   const fetchMovies = async () => {
     try {
       const response = await axios.get(
-        `/api/movies?page=${currentPage}&size=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}`
+        `/api/movies?page=${currentPage}&size=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}&searchQuery=${searchQuery}`
       );
       setMovies(response.data.content);
     } catch (error) {
@@ -49,8 +51,19 @@ const Homepage = () => {
     setSortDirection(direction);
   };
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <StyledCenter>
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={handleSearchChange}
+        placeholder="Wyszukaj film..."
+      />
+
       <div className="sort-buttons">
         <button onClick={() => handleSortBy('price', 'asc')}>
           CENA
@@ -95,6 +108,9 @@ const Homepage = () => {
             <li key={movie.id}>
               <div className="img-info">
                 <img src={movie.photoPath} alt={movie.name} />
+                <div className="buy-now">
+                  <p>kup teraz!</p>
+                </div>
                 <div className="rating">
                   <i className="icon">
                     <FontAwesomeIcon icon={faStar} />

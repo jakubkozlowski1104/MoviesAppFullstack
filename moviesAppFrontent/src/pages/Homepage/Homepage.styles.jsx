@@ -31,6 +31,7 @@ export const StyledCenter = styled.div`
       margin-bottom: 20px; /* Odstęp między rzędami */
 
       .img-info {
+        position: absolute;
         transition: 0.3s;
         border-radius: 30px;
         background-color: red;
@@ -43,6 +44,25 @@ export const StyledCenter = styled.div`
         img {
           border-radius: 10px;
           width: 100%;
+        }
+
+        .buy-now {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 80%;
+          height: 40px;
+          padding: 5px 10px;
+          background-color: #d7dbe8;
+          border-radius: 5px;
+          font-size: 1.5rem;
+          font-weight: bold;
+          display: flex;
+          text-transform: uppercase;
+          justify-content: center;
+          opacity: 0;
+          transition: 0.3s;
         }
 
         .rating {
@@ -114,5 +134,9 @@ export const StyledCenter = styled.div`
   .img-info:hover {
     transform: rotate(3deg);
     opacity: 0.8;
+  }
+
+  .img-info:hover .buy-now {
+    opacity: 1;
   }
 `;
