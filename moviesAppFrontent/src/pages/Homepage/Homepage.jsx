@@ -57,12 +57,14 @@ const Homepage = () => {
 
   return (
     <StyledCenter>
-      <input
-        type="text"
-        value={searchQuery}
-        onChange={handleSearchChange}
-        placeholder="Wyszukaj film..."
-      />
+      <div className="search-bar">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          placeholder="Wyszukaj film..."
+        />
+      </div>
 
       <div className="sort-buttons">
         <button onClick={() => handleSortBy('price', 'asc')}>

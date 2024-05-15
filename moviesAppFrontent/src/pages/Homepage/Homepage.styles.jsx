@@ -6,8 +6,46 @@ export const StyledCenter = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100%;
-  margin-top: 2%;
-  background-color: red;
+  background-color: white;
+
+  .search-bar {
+    margin: 20px;
+    input {
+      padding: 10px 40px;
+      border-radius: 20px;
+      outline: none;
+      border: 2px solid purple;
+    }
+  }
+
+  .sort-buttons {
+    button {
+      margin: 0 5px;
+      margin-bottom: 15px;
+      display: inline-block;
+      outline: 0;
+      border: 0;
+      cursor: pointer;
+      color: #fff;
+      font-weight: 500;
+      border-radius: 4px;
+      font-size: 14px;
+      height: 30px;
+      padding: 0px 20px;
+      text-shadow: rgb(0 0 0 / 25%) 0px 3px 8px;
+      background: linear-gradient(
+        92.88deg,
+        rgb(69, 94, 181) 9.16%,
+        rgb(86, 67, 204) 43.89%,
+        rgb(103, 63, 215) 64.72%
+      );
+      transition: all 0.5s ease 0s;
+      :hover {
+        box-shadow: rgb(80 63 205 / 50%) 0px 1px 40px;
+        transition: all 0.1s ease 0s;
+      }
+    }
+  }
 
   .center {
     display: flex;
@@ -121,10 +159,30 @@ export const StyledCenter = styled.div`
     border-radius: 50px;
     margin: 10px;
     button {
-      padding: 5px 30px 5px 30px;
-      outline: none;
-      font-size: 1.2rem;
+      margin: 0 5px;
+      margin-bottom: 15px;
+      display: inline-block;
+      outline: 0;
+      border: 0;
       cursor: pointer;
+      color: #fff;
+      font-weight: 500;
+      border-radius: 4px;
+      font-size: 14px;
+      height: 30px;
+      padding: 0px 20px;
+      text-shadow: rgb(0 0 0 / 25%) 0px 3px 8px;
+      background: linear-gradient(
+        92.88deg,
+        rgb(69, 94, 181) 9.16%,
+        rgb(86, 67, 204) 43.89%,
+        rgb(103, 63, 215) 64.72%
+      );
+      transition: all 0.5s ease 0s;
+      :hover {
+        box-shadow: rgb(80 63 205 / 50%) 0px 1px 40px;
+        transition: all 0.1s ease 0s;
+      }
     }
     button:hover {
       background-color: #92d6ec;
