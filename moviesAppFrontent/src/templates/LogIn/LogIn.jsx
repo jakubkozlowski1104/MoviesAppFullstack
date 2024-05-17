@@ -31,8 +31,8 @@ const LogIn = () => {
       .then((response) => {
         if (response.status === 202) {
           localStorage.setItem('token', response.data.token);
-          console.log(response.data);
           localStorage.setItem('isAdmin', response.data.user.admin);
+          localStorage.setItem('user', JSON.stringify(response.data.user));
           setIsLoginWrong(false);
           navigate('/');
           window.location.reload();
