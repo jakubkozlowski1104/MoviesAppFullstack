@@ -7,8 +7,6 @@ import { useState, useEffect } from 'react';
 const Movie = () => {
   const location = useLocation();
   const movie = location.state.movie;
-  console.log(movie.id);
-  // console.log(localStorage.getItem('user'));
   const [isReadMore, setIsReadMore] = useState(false);
   const [activeUser, setActiveUser] = useState(null);
 
@@ -17,30 +15,31 @@ const Movie = () => {
     setActiveUser(JSON.parse(user));
   }, []);
 
-  // const handleBuyMovie = async () => {
-  //   try {
-  //     await axios
-  //       .post('api/user/register/check', {
-  //         userId: movie.userId,
-  //         movieId: movie.movie,
-  //       })
-  //       .then((response) => {
-  //         if (response.status === 201) {
-  //           console.log('Użytkownik został pomyślnie zarejestrowany');
-  //           navigate('/');
-  //         } else if (response.status === 200) {
-  //           checkIfDataAlreadyExist(response.data.status);
-  //         }
-  //       });
-  //   } catch (error) {
-  //     console.error('An error occurred:', error);
-  //   }
-  // };
+  const handleBuyMovie = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/purchasedMovies/purchase?userId=${activeUser.id}&movieId=${movie.id}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.status === 204) {
+        alert('jus ten film zakupiłeś!');
+      }
+      const data = await response.text();
+      console.log('Response:', data);
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while purchasing the movie.');
+    }
+  };
 
   const handleReadMore = () => {
     setIsReadMore(!isReadMore);
-    console.log(isReadMore);
-    console.log(activeUser);
   };
 
   return (
@@ -85,7 +84,7 @@ const Movie = () => {
           </div>
           <div className="buy">
             <div className="price">{movie.price} PLN</div>
-            <button>KUP FILM!</button>
+            <button onClick={handleBuyMovie}>KUP FILM!</button>
           </div>
           <div className="more-info">
             <p>
