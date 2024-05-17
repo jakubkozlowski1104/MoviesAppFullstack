@@ -31,6 +31,7 @@ const Homepage = () => {
       const response = await axios.get(
         `/api/movies?page=${currentPage}&size=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}&searchQuery=${searchQuery}`
       );
+      console.log(response.data);
       setMovies(response.data.content);
     } catch (error) {
       console.error('Błąd pobierania filmów:', error);
@@ -112,33 +113,37 @@ const Homepage = () => {
       </div>
       <div className="center">
         <ul>
-          {movies.map((movie) => (
-            <li key={movie.id}>
-              <div className="img-info">
-                <img src={movie.photoPath} alt={movie.name} />
-                <div className="buy-now">
-                  <button onClick={() => goToMovie(movie)}>kup teraz!</button>
+          {movies && movies.length > 0 ? (
+            movies.map((movie) => (
+              <li key={movie.id}>
+                <div className="img-info">
+                  <img src={movie.photoPath} alt={movie.name} />
+                  <div className="buy-now">
+                    <button onClick={() => goToMovie(movie)}>kup teraz!</button>
+                  </div>
+                  <div className="rating">
+                    <i className="icon">
+                      <FontAwesomeIcon icon={faStar} />
+                    </i>
+                    <div className="rate">{movie.rating}%</div>
+                  </div>
+                  <div className="price">{movie.price} PLN</div>
                 </div>
-                <div className="rating">
-                  <i className="icon">
-                    <FontAwesomeIcon icon={faStar} />
-                  </i>
-                  <div className="rate">{movie.rating}%</div>
-                </div>
-                <div className="price">{movie.price} PLN</div>
-              </div>
 
-              <div className="info">
-                <div className="name">
-                  {movie.name} ({movie.releaseYear})
+                <div className="info">
+                  <div className="name">
+                    {movie.name} ({movie.releaseYear})
+                  </div>
+                  <div className="more-info">
+                    <div className="year">{movie.releaseYear} |</div>
+                    <div className="category">{movie.category}</div>
+                  </div>
                 </div>
-                <div className="more-info">
-                  <div className="year">{movie.releaseYear} |</div>
-                  <div className="category">{movie.category}</div>
-                </div>
-              </div>
-            </li>
-          ))}
+              </li>
+            ))
+          ) : (
+            <div>No movies found</div>
+          )}
         </ul>
       </div>
       <div className="buttons">

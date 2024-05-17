@@ -30,10 +30,9 @@ const LogIn = () => {
       })
       .then((response) => {
         if (response.status === 202) {
-          console.log(response);
           localStorage.setItem('token', response.data.token);
-          console.log(response.data);
           localStorage.setItem('isAdmin', response.data.user.admin);
+          localStorage.setItem('user', JSON.stringify(response.data.user));
           setIsLoginWrong(false);
           navigate('/');
           window.location.reload();
@@ -95,7 +94,7 @@ const LogIn = () => {
               </div>
               <p className="forgot">Forgot Password?</p>
             </div>
-            <button>Login</button>
+            <button type="submit">Login</button>
             <div className="register">
               <p>
                 Dont have an accont?
