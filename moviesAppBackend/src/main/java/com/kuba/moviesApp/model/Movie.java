@@ -6,6 +6,8 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "MOVIES")
 @Getter
@@ -14,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 public class Movie {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -29,26 +30,26 @@ public class Movie {
     private String director;
 
     @Column(name = "duration")
-    private int duration; // Czas trwania filmu w minutach
+    private int duration;
 
     @Column(name = "release_year")
-    private int releaseYear; // Rok wydania filmu
+    private int releaseYear;
 
     @Column(name = "description", length = 1000)
-    private String description; // Opis filmu
+    private String description;
 
     @Column(name = "rating")
-    private double rating; // Ocena filmu
+    private double rating;
 
     @Column(name = "price")
-    private double price; // Ocena filmu
+    private double price;
 
-    @Column(name = "photo_path", length = 255) // Określ długość maksymalną ścieżki pliku
-    private String photoPath; // Zdjęcie filmu (ścieżka do pliku)
+    @Column(name = "photo_path", length = 255)
+    private String photoPath;
 
     @OneToMany(mappedBy = "movie")
+    @JsonManagedReference
     private List<PurchasedMovie> purchasedByUsers = new ArrayList<>();
-
 
     // Konstruktor
     public Movie(String name, Category category, String director, int duration) {
@@ -61,5 +62,5 @@ public class Movie {
         this.rating = 0.0;
     }
 
-    // Getters and setters
+    // Gettery i settery
 }

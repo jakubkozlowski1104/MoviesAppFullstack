@@ -6,6 +6,8 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "USERS")
 @Getter
@@ -13,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 public class User {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -33,8 +34,10 @@ public class User {
     private double wallet;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<PurchasedMovie> purchasedMovies = new ArrayList<>();
 
+    // Konstruktor
     public User(String email, String username, String password) {
         this.email = email;
         this.username = username;
@@ -42,5 +45,6 @@ public class User {
         this.isAdmin = false;
         this.wallet = 0.0;
     }
-    // Getters and setters
+
+    // Gettery i settery
 }
