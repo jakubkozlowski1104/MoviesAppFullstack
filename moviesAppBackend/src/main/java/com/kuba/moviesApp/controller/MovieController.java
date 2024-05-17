@@ -27,7 +27,8 @@ public class MovieController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "15") int size,
             @RequestParam(defaultValue = "name") String sortBy,
-            @RequestParam(defaultValue = "asc") String sortDirection) {
+            @RequestParam(defaultValue = "asc") String sortDirection,
+            @RequestParam(required = false) String searchQuery) {
 
         // Validate sortDirection
         if (!sortDirection.equalsIgnoreCase("asc") && !sortDirection.equalsIgnoreCase("desc")) {
@@ -35,7 +36,12 @@ public class MovieController {
         }
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.toUpperCase()), sortBy));
-        return movieService.getAllMovies(pageable);
+
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            return movieService.searchMoviesByNameOrCategory(searchQuery, pageable);
+        } else {
+            return movieService.getAllMovies(pageable);
+        }
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

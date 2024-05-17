@@ -1,11 +1,12 @@
 package com.kuba.moviesApp.service;
 
+import com.kuba.moviesApp.model.Category;
 import com.kuba.moviesApp.model.Movie;
 import com.kuba.moviesApp.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MovieService {
@@ -23,5 +24,14 @@ public class MovieService {
 
     public long countAllMovies() {
         return movieRepository.count();
+    }
+
+    public Page<Movie> searchMoviesByNameOrCategory(String searchQuery, Pageable pageable) {
+        try {
+            Category category = Category.valueOf(searchQuery.toUpperCase());
+            return movieRepository.findByNameContainingIgnoreCaseOrCategory(searchQuery, category, pageable);
+        } catch (IllegalArgumentException e) {
+            return movieRepository.findByNameContainingIgnoreCase(searchQuery, pageable);
+        }
     }
 }
