@@ -31,6 +31,8 @@ const Movie = () => {
         alert('jus ten film zakupiłeś!');
       } else if (response.status === 200) {
         alert('Brawo, udało ci się zakupić nowy film!');
+      } else if (response.status === 208) {
+        alert('Brak wystarczających środków na koncie!');
       }
       const data = await response.text();
       console.log('Response:', data);
