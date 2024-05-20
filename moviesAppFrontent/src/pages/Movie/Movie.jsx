@@ -29,6 +29,8 @@ const Movie = () => {
 
       if (response.status === 204) {
         alert('jus ten film zakupiłeś!');
+      } else if (response.status === 200) {
+        alert('Brawo, udało ci się zakupić nowy film!');
       }
       const data = await response.text();
       console.log('Response:', data);
