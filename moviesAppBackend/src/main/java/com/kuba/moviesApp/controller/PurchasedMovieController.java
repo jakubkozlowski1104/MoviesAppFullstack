@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/purchasedMovies")
@@ -29,6 +30,16 @@ public class PurchasedMovieController {
         this.purchasedMovieRepository = purchasedMovieRepository;
     }
 
+    @GetMapping("/user/{userId}/movies")
+    public ResponseEntity<?> getOwnedMoviesByUserId(@PathVariable Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+
+        List<Movie> ownedMovies = purchasedMovieRepository.findMoviesByUser(user);
+
+        return ResponseEntity.ok(ownedMovies);
+    }
+
     @PostMapping("/purchase")
     public ResponseEntity<?> purchaseMovie(@RequestParam Long userId, @RequestParam Long movieId) {
         User user = userRepository.findById(userId)
@@ -37,7 +48,6 @@ public class PurchasedMovieController {
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new IllegalArgumentException("Movie not found with id: " + movieId));
 
-        // Sprawdzanie, czy użytkownik już zakupił ten film
         boolean alreadyPurchased = purchasedMovieRepository.existsByUserAndMovie(user, movie);
         if (alreadyPurchased) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("You have already purchased this movie.");
