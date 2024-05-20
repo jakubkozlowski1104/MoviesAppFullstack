@@ -8,7 +8,7 @@ export const StyledNav = styled.nav`
   background-color: darkblue;
   display: flex;
   justify-content: center;
-  padding: 10px;
+  padding: 20px;
   width: 100%;
 
   .center-content {
@@ -25,7 +25,7 @@ export const StyledNav = styled.nav`
       li,
       button {
         text-transform: uppercase;
-        margin-right: 10px;
+        margin-right: 30px;
         font-size: 1.1rem;
         background: none;
         border: none;

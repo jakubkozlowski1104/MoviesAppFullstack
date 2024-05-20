@@ -16,7 +16,7 @@ export const Navbar = () => {
             <StyledNavLink to="/">Home</StyledNavLink>
           </li>
           <li>
-            <StyledNavLink to="/profile">What&apos;s on</StyledNavLink>
+            <StyledNavLink to="/profile">My movies</StyledNavLink>
           </li>
           {console.log(localStorage.getItem('isAdmin'))}
           {localStorage.getItem('isAdmin') === 'true' && (
