@@ -34,16 +34,15 @@ public class WalletController {
     // Endpoint do dodawania środków do portfela użytkownika
     @PostMapping("/{userId}/wallet/add")
     public ResponseEntity<String> addToUserWallet(@PathVariable Long userId, @RequestBody Map<String, Object> requestBody) {
-        // Sprawdzanie, czy użytkownik istnieje
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
 
         // Pobieranie wartości amount z obiektu requestBody
-        Double amount = (Double) requestBody.get("amount");
+        Number amount = (Number) requestBody.get("amount");
 
         // Dodawanie środków do portfela
         double currentWallet = user.getWallet();
-        user.setWallet(currentWallet + amount);
+        user.setWallet(currentWallet + amount.doubleValue()); // Konwertowanie do double
 
         // Zapisanie zmian w bazie danych
         userRepository.save(user);
