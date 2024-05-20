@@ -12,7 +12,6 @@ import {
 
 const LogIn = () => {
   const [inputs, setInputs] = useState({});
-  const [isLogIn, setIsLogIn] = useState(false);
   const [isloginwrong, setIsLoginWrong] = useState(false);
   const navigate = useNavigate();
 
@@ -31,14 +30,14 @@ const LogIn = () => {
       })
       .then((response) => {
         if (response.status === 202) {
-          console.log(response.data.token);
           localStorage.setItem('token', response.data.token);
-          console.log(localStorage);
-          setIsLogIn(true);
+          localStorage.setItem('isAdmin', response.data.user.admin);
+          localStorage.setItem('user', JSON.stringify(response.data.user));
           setIsLoginWrong(false);
+          navigate('/');
+          window.location.reload();
         } else {
           setIsLoginWrong(true);
-          setIsLogIn(false);
         }
       })
       .catch((error) => {
@@ -47,11 +46,11 @@ const LogIn = () => {
       });
   };
 
-  const changePath = () => {
-    if (isLogIn) {
-      navigate('/');
-    }
-  };
+  // const changePath = () => {
+  //   if (isLogIn) {
+
+  //   }
+  // };
 
   return (
     <StyledCenter>
@@ -95,12 +94,11 @@ const LogIn = () => {
               </div>
               <p className="forgot">Forgot Password?</p>
             </div>
-            <button onClick={changePath()}>Login</button>
+            <button type="submit">Login</button>
             <div className="register">
               <p>
                 Dont have an accont?
-                {/* <span onClick={() => navigate('/user/signup')}> Register</span> */}
-                <span> Register</span>
+                <span onClick={() => navigate('/signup')}> Register</span>
               </p>
             </div>
           </StyledForm>
