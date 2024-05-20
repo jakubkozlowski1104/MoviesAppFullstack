@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
+import { StyledContainer } from './MyMovies.styles';
+import { useNavigate } from 'react-router-dom';
 
 const MyMovies = () => {
   const [movies, setMovies] = useState([]);
   const [activeUser, setActiveUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -18,7 +21,7 @@ const MyMovies = () => {
   const fetchMovies = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/purchasedMovies/user/${activeUser.id}/movies`
+        `/api/purchasedMovies/user/${activeUser.id}`
       );
       if (!response.ok) {
         throw new Error('Failed to fetch movies');
@@ -31,18 +34,25 @@ const MyMovies = () => {
   };
 
   return (
-    <div>
+    <StyledContainer>
       {!activeUser ? (
-        <div>zaloguj sie lub zarejewsturj!</div>
+        <h1 className="no-movies">
+          If you want to see our movies you have to{' '}
+          <span onClick={() => navigate('/login')}> Login</span> or{' '}
+          <span onClick={() => navigate('/signup')}> Register</span> or buy some
+          movies!
+        </h1>
       ) : (
-        <h1>Your movies:</h1>
-      <ul>
-        {activeUser && console.log(activeUser.id)}
-        {activeUser &&
-          movies.map((movie) => <li key={movie.id}>{movie.name}</li>)}
-      </ul>
-      ) }
-    </div>
+        <div>
+          <h1>Your movies:</h1>
+          <ul>
+            {movies.map((movie) => (
+              <li key={movie.id}>{movie.name}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </StyledContainer>
   );
 };
 

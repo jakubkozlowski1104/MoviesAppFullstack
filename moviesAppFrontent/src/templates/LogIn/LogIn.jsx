@@ -14,6 +14,7 @@ const LogIn = () => {
   const [inputs, setInputs] = useState({});
   const [isloginwrong, setIsLoginWrong] = useState(false);
   const navigate = useNavigate();
+  
 
   const handleChange = (e) => {
     const name = e.target.name;
