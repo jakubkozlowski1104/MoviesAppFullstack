@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 const Settings = () => {
   const [activeUser, setActiveUser] = useState(null);
   const [walletValue, setWalletValue] = useState(null);
+  const [amountToAdd, setAmountToAdd] = useState('');
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -31,14 +32,45 @@ const Settings = () => {
     }
   };
 
+  const handleAddToWallet = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/users/${activeUser.id}/wallet/add`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ amount: parseFloat(amountToAdd) }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error('Failed to add amount to wallet');
+      }
+      fetchWalletValue();
+      setAmountToAdd('');
+    } catch (error) {
+      console.error('Error adding amount to wallet:', error);
+    }
+  };
+
   return (
     <StyledContainer>
       {!activeUser ? (
-        <h1>niet</h1>
+        <h1>Użytkownik niezalogowany</h1>
       ) : (
-        <div className="movies-container">
+        <div className="settings-container">
           <h1 className="no-movies">cześć {activeUser.username}!</h1>
-          <h2>Wartość twojego portfela: {walletValue} PLN</h2>
+          <div className="wallet">
+            <h2>Wartość twojego portfela: {walletValue} PLN</h2>
+            <input
+              type="number"
+              value={amountToAdd}
+              min={1}
+              onChange={(e) => setAmountToAdd(e.target.value)}
+            />
+            <button onClick={handleAddToWallet}>Dodaj do portfela</button>
+          </div>
         </div>
       )}
     </StyledContainer>
