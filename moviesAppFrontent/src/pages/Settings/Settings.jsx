@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { StyledContainer } from './Settings.styles';
 import { useState, useEffect } from 'react';
 
@@ -62,7 +63,10 @@ const Settings = () => {
         <div className="settings-container">
           <h1 className="no-movies">cześć {activeUser.username}!</h1>
           <div className="wallet">
-            <h2>Wartość twojego portfela: {walletValue} PLN</h2>
+            <h2>
+              Wartość twojego portfela: {walletValue && walletValue.toFixed(2)}{' '}
+              PLN
+            </h2>
             <input
               type="number"
               value={amountToAdd}
