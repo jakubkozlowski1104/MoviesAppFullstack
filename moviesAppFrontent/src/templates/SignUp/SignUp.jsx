@@ -56,11 +56,11 @@ const SignUp = () => {
 
   const checkIfDataAlreadyExist = (status) => {
     if (status === 1) {
-      setIsDataExist('email and name already exist');
+      setIsDataExist('Email and username already exist');
     } else if (status === 2) {
-      setIsDataExist('email already exist');
+      setIsDataExist('Email already exists');
     } else if (status === 3) {
-      setIsDataExist('name already exist');
+      setIsDataExist('Username already exists');
     } else {
       setIsDataExist('');
     }
@@ -68,20 +68,26 @@ const SignUp = () => {
 
   const createUser = async () => {
     try {
-      await axios
-        .post('api/user/register/check', {
+      const response = await axios.post(
+        'http://localhost:8080/api/user/register/check',
+        {
           username: inputs.name,
           email: inputs.email,
           password: inputs.password,
-        })
-        .then((response) => {
-          if (response.status === 201) {
-            console.log('Użytkownik został pomyślnie zarejestrowany');
-            navigate('/');
-          } else if (response.status === 200) {
-            checkIfDataAlreadyExist(response.data.status);
-          }
-        });
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        console.log('User registered successfully');
+        navigate('/');
+      } else if (response.status === 200) {
+        checkIfDataAlreadyExist(response.data.status);
+      }
     } catch (error) {
       console.error('An error occurred:', error);
     }

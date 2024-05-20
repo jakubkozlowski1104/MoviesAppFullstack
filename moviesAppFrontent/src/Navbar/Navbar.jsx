@@ -4,6 +4,7 @@ export const Navbar = () => {
   const logoutUser = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('isAdmin');
+    localStorage.removeItem('user');
     window.location.reload();
   };
 
