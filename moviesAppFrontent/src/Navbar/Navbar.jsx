@@ -36,9 +36,14 @@ export const Navbar = () => {
               </li>
             </>
           ) : (
-            <li>
-              <button onClick={logoutUser}>Logout</button>
-            </li>
+            <>
+              <li>
+                <button onClick={logoutUser}>Logout</button>
+              </li>
+              <li>
+                <StyledNavLink to="/settings">Settings</StyledNavLink>
+              </li>
+            </>
           )}
         </ul>
       </div>
