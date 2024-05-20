@@ -6,10 +6,6 @@ import lombok.*;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
-import lombok.*;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "PURCHASED_MOVIES")
@@ -23,12 +19,12 @@ public class PurchasedMovie {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonBackReference(value = "user-purchases")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
-    @JsonBackReference
+    @JsonBackReference(value = "movie-purchases")
     private Movie movie;
 
     @Column(name = "order_date")
@@ -38,7 +34,6 @@ public class PurchasedMovie {
     public PurchasedMovie(User user, Movie movie) {
         this.user = user;
         this.movie = movie;
+        this.orderDate = LocalDate.now(); // Ustawienie daty zamówienia na dzień dzisiejszy
     }
-
-    // Gettery i settery
 }

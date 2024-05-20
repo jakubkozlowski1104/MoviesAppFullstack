@@ -6,20 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 
 
 @RestController
+@RequestMapping("/api") // Upewnij się, że masz odpowiednią ścieżkę
 @CrossOrigin("*")
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
-
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
@@ -60,7 +59,7 @@ public class UserController {
             return new ResponseEntity<>("User with given ID not found", HttpStatus.NOT_FOUND);
         }
     }
-    @PostMapping("/user/register/check")
+    @PostMapping(value = "/user/register/check", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Map<String, Object>> canSignUp(@RequestBody User newUser) {
         boolean emailExists = userRepository.existsByEmail(newUser.getEmail());
         boolean usernameExists = userRepository.existsByUsername(newUser.getUsername());

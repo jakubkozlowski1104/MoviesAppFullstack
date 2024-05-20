@@ -47,8 +47,8 @@ public class Movie {
     @Column(name = "photo_path", length = 255)
     private String photoPath;
 
-    @OneToMany(mappedBy = "movie")
-    @JsonManagedReference
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "movie-purchases")
     private List<PurchasedMovie> purchasedByUsers = new ArrayList<>();
 
     // Konstruktor
@@ -60,7 +60,7 @@ public class Movie {
         this.releaseYear = 0;
         this.description = "";
         this.rating = 0.0;
+        this.price = 0.0;
+        this.photoPath = "";
     }
-
-    // Gettery i settery
 }

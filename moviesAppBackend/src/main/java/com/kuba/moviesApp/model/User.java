@@ -33,11 +33,10 @@ public class User {
     @Column(name = "wallet")
     private double wallet;
 
-    @OneToMany(mappedBy = "user")
-    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "user-purchases")
     private List<PurchasedMovie> purchasedMovies = new ArrayList<>();
 
-    // Konstruktor
     public User(String email, String username, String password) {
         this.email = email;
         this.username = username;
@@ -45,6 +44,4 @@ public class User {
         this.isAdmin = false;
         this.wallet = 0.0;
     }
-
-    // Gettery i settery
 }
