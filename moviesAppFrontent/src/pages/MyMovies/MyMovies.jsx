@@ -21,7 +21,7 @@ const MyMovies = () => {
   const fetchMovies = async () => {
     try {
       const response = await fetch(
-        `/api/purchasedMovies/user/${activeUser.id}`
+        `http://localhost:8080/api/purchasedMovies/user/${activeUser.id}/movies`
       );
       if (!response.ok) {
         throw new Error('Failed to fetch movies');
@@ -43,11 +43,16 @@ const MyMovies = () => {
           movies!
         </h1>
       ) : (
-        <div>
+        <div className="movies-container">
           <h1>Your movies:</h1>
-          <ul>
+          <ul className="movies">
             {movies.map((movie) => (
-              <li key={movie.id}>{movie.name}</li>
+              <li key={movie.id} className="movie">
+                <div className="name">{movie.name}</div>
+                <div className="img">
+                  <img src={movie.photoPath} alt={movie.name} />
+                </div>
+              </li>
             ))}
           </ul>
         </div>
