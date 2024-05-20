@@ -24,7 +24,7 @@ const LogIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post('api/user/login', {
+      .post('http://localhost:8080/api/user/login', {
         email: inputs.email,
         password: inputs.password,
       })
