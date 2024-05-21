@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import CustomAlert from '../../Components/Alert/CustomAlert';
 import { StyledContainer } from './Settings.styles';
 import { useState, useEffect } from 'react';
 
@@ -6,6 +7,8 @@ const Settings = () => {
   const [activeUser, setActiveUser] = useState(null);
   const [walletValue, setWalletValue] = useState(null);
   const [amountToAdd, setAmountToAdd] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' or 'error'
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -50,8 +53,12 @@ const Settings = () => {
       }
       fetchWalletValue();
       setAmountToAdd('');
+      setAlertMessage('Pomyślnie dodano środki do portfela.');
+      setAlertSeverity('success');
     } catch (error) {
       console.error('Error adding amount to wallet:', error);
+      setAlertMessage('Nie udało się dodać środków do portfela.');
+      setAlertSeverity('error');
     }
   };
 
@@ -61,7 +68,7 @@ const Settings = () => {
         <h1>Użytkownik niezalogowany</h1>
       ) : (
         <div className="settings-container">
-          <h1 className="no-movies">cześć {activeUser.username}!</h1>
+          <h1 className="no-movies">Cześć {activeUser.username}!</h1>
           <div className="wallet">
             <h2>
               Wartość twojego portfela: {walletValue && walletValue.toFixed(2)}{' '}
@@ -75,6 +82,7 @@ const Settings = () => {
             />
             <button onClick={handleAddToWallet}>Dodaj do portfela</button>
           </div>
+          {alertMessage && <CustomAlert message={alertMessage} severity={alertSeverity} />}
         </div>
       )}
     </StyledContainer>
