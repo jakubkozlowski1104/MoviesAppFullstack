@@ -29,6 +29,13 @@ export const StyledContainer = styled.div`
       flex-wrap: wrap;
       max-width: 80%;
 
+      .movie {
+        .img {
+          img {
+            width: 250px;
+          }
+        }
+      }
       li {
         display: flex;
         flex-direction: column;
@@ -37,6 +44,11 @@ export const StyledContainer = styled.div`
 
         .name {
           font-size: 1.5rem;
+          max-width: 200px;
+          overflow: hidden;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
     }

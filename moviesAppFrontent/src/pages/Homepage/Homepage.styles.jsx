@@ -73,14 +73,13 @@ export const StyledCenter = styled.div`
         transition: 0.3s;
         border-radius: 30px;
         background-color: red;
-        width: 100%;
         display: flex;
         justify-content: center;
         position: relative;
 
         img {
           border-radius: 10px;
-          width: 100%;
+          width: 270px;
         }
 
         .buy-now {

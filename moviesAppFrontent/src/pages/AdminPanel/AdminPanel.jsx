@@ -12,7 +12,11 @@ const AdminPanel = () => {
   // Funkcja do otwierania modalu edycji
   const openEditModal = (user) => {
     setSelectedUser(user);
-    setUpdatedUserData(user); // Ustawienie danych użytkownika w stanie początkowym formularza edycji
+    setUpdatedUserData({
+      username: user.username,
+      email: user.email,
+      password: user.password,
+    }); // Ustawienie danych użytkownika w stanie początkowym formularza edycji
     setModalIsOpen(true);
   };
 
@@ -25,10 +29,23 @@ const AdminPanel = () => {
 
   const handleEditUser = async () => {
     try {
-      await axios.post(`/api/user/update/${selectedUser.id}`, updatedUserData);
-      // Pobranie zaktualizowanych danych użytkownika z API
-      const response = await axios.get('/api/users');
-      setUsers(response.data);
+      const response = await axios.post(
+        `http://localhost:8080/api/user/update/${selectedUser.id}`,
+        {
+          username: updatedUserData.username,
+          email: updatedUserData.email,
+          password: updatedUserData.password,
+        }
+      );
+      // Aktualizacja danych użytkownika w lokalnym stanie
+      setUsers(
+        users.map((user) => {
+          if (user.id === selectedUser.id) {
+            return { ...user, ...updatedUserData };
+          }
+          return user;
+        })
+      );
       closeEditModal(); // Zamknięcie modalu po zakończeniu edycji
       alert(`User with id ${selectedUser.id} has been updated`);
     } catch (error) {
@@ -39,7 +56,7 @@ const AdminPanel = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('/api/users');
+        const response = await axios.get('http://localhost:8080/api/users');
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -51,9 +68,9 @@ const AdminPanel = () => {
 
   const handleDeleteUser = async (id) => {
     try {
-      await axios.delete(`/api/user/delete/${id}`);
+      await axios.delete(`http://localhost:8080/api/user/delete/${id}`);
       setUsers(users.filter((user) => user.id !== id));
-      alert(`user witd id ${id} has been deleted`);
+      alert(`User with id ${id} has been deleted`);
     } catch (error) {
       console.error('Error deleting user:', error);
     }
@@ -97,7 +114,7 @@ const AdminPanel = () => {
             Name:
             <input
               type="text"
-              value={updatedUserData.username}
+              value={updatedUserData.username || ''}
               onChange={(e) =>
                 setUpdatedUserData({
                   ...updatedUserData,
@@ -110,7 +127,7 @@ const AdminPanel = () => {
             Email:
             <input
               type="text"
-              value={updatedUserData.email}
+              value={updatedUserData.email || ''}
               onChange={(e) =>
                 setUpdatedUserData({
                   ...updatedUserData,
@@ -123,7 +140,7 @@ const AdminPanel = () => {
             Password:
             <input
               type="text"
-              value={updatedUserData.password}
+              value={updatedUserData.password || ''}
               onChange={(e) =>
                 setUpdatedUserData({
                   ...updatedUserData,
