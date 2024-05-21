@@ -10,6 +10,7 @@ const Movie = () => {
   const movie = location.state.movie;
   const [isReadMore, setIsReadMore] = useState(false);
   const [activeUser, setActiveUser] = useState(null);
+  const [randomMovies, setRandomMovies] = useState([]);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' or 'error'
   const [showAlert, setShowAlert] = useState(false); // New state for alert vis
@@ -17,10 +18,27 @@ const Movie = () => {
   useEffect(() => {
     const user = localStorage.getItem('user');
     setActiveUser(JSON.parse(user));
+    fetchRandomMovies();
   }, []);
 
   const handleCloseAlert = () => {
     setShowAlert(false);
+  };
+
+  const fetchRandomMovies = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/movies/random?excludedIds=${movie.id}`
+      );
+      if (!response.ok) {
+        throw new Error('Failed to fetch random movies');
+      }
+      const data = await response.json();
+      setRandomMovies(data);
+      console.log(data);
+    } catch (error) {
+      console.error('Error fetching random movies:', error);
+    }
   };
 
   const handleBuyMovie = async () => {
@@ -132,6 +150,19 @@ const Movie = () => {
               <span>czas trwania:</span> {movie.duration}
             </p>
           </div>
+        </div>
+      </div>
+      <div className="recomended-movies">
+        <h1>Filmy które mogą ci się spodobać</h1>
+        <div className="movies">
+          {randomMovies.map((movie) => (
+            <li key={movie.id} className="movie">
+              <div className="name">{movie.name}</div>
+              <div className="img">
+                <img src={movie.photoPath} alt={movie.name} />
+              </div>
+            </li>
+          ))}
         </div>
       </div>
     </StyledContainer>
