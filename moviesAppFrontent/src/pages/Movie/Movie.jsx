@@ -3,17 +3,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { StyledContainer } from './Movie.styles';
 import { useState, useEffect } from 'react';
+import CustomAlert from '../../Components/Alert/CustomAlert';
 
 const Movie = () => {
   const location = useLocation();
   const movie = location.state.movie;
   const [isReadMore, setIsReadMore] = useState(false);
   const [activeUser, setActiveUser] = useState(null);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' or 'error'
+  const [showAlert, setShowAlert] = useState(false); // New state for alert vis
 
   useEffect(() => {
     const user = localStorage.getItem('user');
     setActiveUser(JSON.parse(user));
   }, []);
+
+  const handleCloseAlert = () => {
+    setShowAlert(false);
+  };
 
   const handleBuyMovie = async () => {
     try {
@@ -28,17 +36,23 @@ const Movie = () => {
       );
 
       if (response.status === 204) {
-        alert('jus ten film zakupiłeś!');
+        setAlertMessage('już ten film zakupiłeś!');
+        setAlertSeverity('error');
       } else if (response.status === 200) {
-        alert('Brawo, udało ci się zakupić nowy film!');
+        setAlertMessage('Brawo, udało ci się zakupić nowy film!');
+        setAlertSeverity('success');
       } else if (response.status === 208) {
-        alert('Brak wystarczających środków na koncie!');
+        setAlertMessage('PBrak wystarczających środków na koncie!');
+        setAlertSeverity('error');
       }
+
       const data = await response.text();
       console.log('Response:', data);
     } catch (error) {
       console.error('Error:', error);
       alert('An error occurred while purchasing the movie.');
+    } finally {
+      setShowAlert(true);
     }
   };
 
@@ -48,6 +62,15 @@ const Movie = () => {
 
   return (
     <StyledContainer>
+      <div className="alert">
+        {showAlert && (
+          <CustomAlert
+            message={alertMessage}
+            severity={alertSeverity}
+            onClose={handleCloseAlert}
+          />
+        )}
+      </div>
       <div className="center">
         <div className="grafic-info">
           <div className="rating">

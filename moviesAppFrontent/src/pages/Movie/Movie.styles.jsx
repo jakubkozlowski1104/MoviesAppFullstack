@@ -3,6 +3,14 @@ import styled from 'styled-components';
 export const StyledContainer = styled.div`
   display: flex;
   justify-content: center;
+  position: relative;
+
+  .alert {
+    position: absolute;
+    top: 10%;
+    width: 500px;
+    height: 100px;
+  }
 
   .center {
     display: flex;
