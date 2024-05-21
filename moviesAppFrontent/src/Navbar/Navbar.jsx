@@ -4,6 +4,7 @@ export const Navbar = () => {
   const logoutUser = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('isAdmin');
+    localStorage.removeItem('user');
     window.location.reload();
   };
 
@@ -15,7 +16,7 @@ export const Navbar = () => {
             <StyledNavLink to="/">Home</StyledNavLink>
           </li>
           <li>
-            <StyledNavLink to="/profile">What&apos;s on</StyledNavLink>
+            <StyledNavLink to="/profile">My movies</StyledNavLink>
           </li>
           {console.log(localStorage.getItem('isAdmin'))}
           {localStorage.getItem('isAdmin') === 'true' && (
@@ -35,9 +36,14 @@ export const Navbar = () => {
               </li>
             </>
           ) : (
-            <li>
-              <button onClick={logoutUser}>Logout</button>
-            </li>
+            <>
+              <li>
+                <button onClick={logoutUser}>Logout</button>
+              </li>
+              <li>
+                <StyledNavLink to="/settings">Settings</StyledNavLink>
+              </li>
+            </>
           )}
         </ul>
       </div>

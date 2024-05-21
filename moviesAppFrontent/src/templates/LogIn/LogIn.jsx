@@ -14,6 +14,7 @@ const LogIn = () => {
   const [inputs, setInputs] = useState({});
   const [isloginwrong, setIsLoginWrong] = useState(false);
   const navigate = useNavigate();
+  
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -24,7 +25,7 @@ const LogIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post('api/user/login', {
+      .post('http://localhost:8080/api/user/login', {
         email: inputs.email,
         password: inputs.password,
       })

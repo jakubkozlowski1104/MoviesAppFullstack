@@ -31,7 +31,6 @@ const Homepage = () => {
       const response = await axios.get(
         `/api/movies?page=${currentPage}&size=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}&searchQuery=${searchQuery}`
       );
-      console.log(response.data);
       setMovies(response.data.content);
     } catch (error) {
       console.error('Błąd pobierania filmów:', error);
@@ -119,7 +118,7 @@ const Homepage = () => {
                 <div className="img-info">
                   <img src={movie.photoPath} alt={movie.name} />
                   <div className="buy-now">
-                    <button onClick={() => goToMovie(movie)}>kup teraz!</button>
+                    <button onClick={() => goToMovie(movie)}>ZOBACZ!</button>
                   </div>
                   <div className="rating">
                     <i className="icon">

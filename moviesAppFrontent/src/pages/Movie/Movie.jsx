@@ -3,17 +3,45 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { StyledContainer } from './Movie.styles';
 import { useState, useEffect } from 'react';
+import CustomAlert from '../../Components/Alert/CustomAlert';
+import { useNavigate } from 'react-router-dom';
 
 const Movie = () => {
   const location = useLocation();
   const movie = location.state.movie;
   const [isReadMore, setIsReadMore] = useState(false);
   const [activeUser, setActiveUser] = useState(null);
+  const [randomMovies, setRandomMovies] = useState([]);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' or 'error'
+  const [showAlert, setShowAlert] = useState(false); // New state for alert vis
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem('user');
     setActiveUser(JSON.parse(user));
+    fetchRandomMovies();
   }, []);
+
+  const handleCloseAlert = () => {
+    setShowAlert(false);
+  };
+
+  const fetchRandomMovies = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/movies/random?excludedIds=${movie.id}`
+      );
+      if (!response.ok) {
+        throw new Error('Failed to fetch random movies');
+      }
+      const data = await response.json();
+      setRandomMovies(data);
+      console.log(data);
+    } catch (error) {
+      console.error('Error fetching random movies:', error);
+    }
+  };
 
   const handleBuyMovie = async () => {
     try {
@@ -28,13 +56,23 @@ const Movie = () => {
       );
 
       if (response.status === 204) {
-        alert('jus ten film zakupiłeś!');
+        setAlertMessage('już ten film zakupiłeś!');
+        setAlertSeverity('error');
+      } else if (response.status === 200) {
+        setAlertMessage('Brawo, udało ci się zakupić nowy film!');
+        setAlertSeverity('success');
+      } else if (response.status === 208) {
+        setAlertMessage('PBrak wystarczających środków na koncie!');
+        setAlertSeverity('error');
       }
+
       const data = await response.text();
       console.log('Response:', data);
     } catch (error) {
       console.error('Error:', error);
       alert('An error occurred while purchasing the movie.');
+    } finally {
+      setShowAlert(true);
     }
   };
 
@@ -42,18 +80,32 @@ const Movie = () => {
     setIsReadMore(!isReadMore);
   };
 
+  const goToMovie = (movie) => {
+    navigate(`/movie/${movie.id}`, { state: { movie } });
+    fetchRandomMovies();
+  };
+
   return (
     <StyledContainer>
+      <div className="alert">
+        {showAlert && (
+          <CustomAlert
+            message={alertMessage}
+            severity={alertSeverity}
+            onClose={handleCloseAlert}
+          />
+        )}
+      </div>
       <div className="center">
         <div className="grafic-info">
+          <div className="img">
+            <img src={movie.photoPath} alt={movie.name} />
+          </div>
           <div className="rating">
             <i>
               <FontAwesomeIcon icon={faStar} />
             </i>
             <p>{(movie.rating / 10).toFixed(1).replace('.', ',')}</p>
-          </div>
-          <div className="img">
-            <img src={movie.photoPath} alt={movie.name} />
           </div>
         </div>
         <div className="info">
@@ -105,6 +157,26 @@ const Movie = () => {
               <span>czas trwania:</span> {movie.duration}
             </p>
           </div>
+        </div>
+      </div>
+      <div className="recomended-movies">
+        <h1>Filmy które mogą ci się spodobać</h1>
+        <div className="movies">
+          {randomMovies.map((movie) => (
+            <li
+              key={movie.id}
+              className="movie"
+              onClick={() => goToMovie(movie)}
+            >
+              <div className="name">{movie.name}</div>
+              <div className="img">
+                <img src={movie.photoPath} alt={movie.name} />
+              </div>
+              <div className="test buy-now">
+                <button>Zobacz</button>
+              </div>
+            </li>
+          ))}
         </div>
       </div>
     </StyledContainer>

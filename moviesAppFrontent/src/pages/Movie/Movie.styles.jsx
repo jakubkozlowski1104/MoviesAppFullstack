@@ -3,6 +3,75 @@ import styled from 'styled-components';
 export const StyledContainer = styled.div`
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  .recomended-movies {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .movies {
+      display: flex;
+      gap: 50px;
+      .movie {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 1.3rem;
+
+        .name {
+          max-width: 200px;
+          overflow: hidden;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .img {
+          img {
+            width: 200px;
+          }
+        }
+
+        .test.buy-now {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 80%;
+          height: 80px;
+          line-height: 80px;
+          padding: 5px 10px;
+          background-color: #d7dbe8;
+          border-radius: 5px;
+          display: flex;
+          justify-content: center;
+          opacity: 0;
+          transition: 0.3s;
+
+          button {
+            background-color: transparent;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+
+  .alert {
+    position: absolute;
+    top: 10%;
+    width: 500px;
+    height: 100px;
+  }
 
   .center {
     display: flex;
@@ -14,8 +83,10 @@ export const StyledContainer = styled.div`
     gap: 30px;
 
     .grafic-info {
+      margin-top: 50px;
       display: flex;
       flex-direction: column;
+      transition: 0;
 
       .rating {
         display: flex;
@@ -31,6 +102,12 @@ export const StyledContainer = styled.div`
         p {
           font-size: 2.5rem;
           margin-right: 20px;
+        }
+      }
+
+      .img {
+        img {
+          width: 250px;
         }
       }
     }
@@ -97,5 +174,24 @@ export const StyledContainer = styled.div`
         }
       }
     }
+  }
+
+  li:hover {
+    transform: rotate(3deg);
+    opacity: 0.8;
+    cursor: pointer;
+  }
+
+  li:hover .test.buy-now {
+    opacity: 0.5;
+  }
+
+  li:hover .test.buy-now button {
+    opacity: 0.5;
+  }
+
+  .test.buy-now:hover {
+    opacity: 0.8;
+    background-color: red;
   }
 `;
