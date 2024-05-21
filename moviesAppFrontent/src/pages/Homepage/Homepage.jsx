@@ -31,7 +31,6 @@ const Homepage = () => {
       const response = await axios.get(
         `/api/movies?page=${currentPage}&size=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}&searchQuery=${searchQuery}`
       );
-      console.log(response.data);
       setMovies(response.data.content);
     } catch (error) {
       console.error('Błąd pobierania filmów:', error);
