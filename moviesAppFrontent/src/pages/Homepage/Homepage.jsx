@@ -118,7 +118,7 @@ const Homepage = () => {
                 <div className="img-info">
                   <img src={movie.photoPath} alt={movie.name} />
                   <div className="buy-now">
-                    <button onClick={() => goToMovie(movie)}>kup teraz!</button>
+                    <button onClick={() => goToMovie(movie)}>ZOBACZ!</button>
                   </div>
                   <div className="rating">
                     <i className="icon">

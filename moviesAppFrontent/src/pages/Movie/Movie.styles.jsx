@@ -22,6 +22,46 @@ export const StyledContainer = styled.div`
         flex-direction: column;
         align-items: center;
         font-size: 1.3rem;
+
+        .name {
+          max-width: 200px;
+          overflow: hidden;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .img {
+          img {
+            width: 200px;
+          }
+        }
+
+        .test.buy-now {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 80%;
+          height: 80px;
+          line-height: 80px;
+          padding: 5px 10px;
+          background-color: #d7dbe8;
+          border-radius: 5px;
+          display: flex;
+          justify-content: center;
+          opacity: 0;
+          transition: 0.3s;
+
+          button {
+            background-color: transparent;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+          }
+        }
       }
     }
   }
@@ -60,6 +100,12 @@ export const StyledContainer = styled.div`
         p {
           font-size: 2.5rem;
           margin-right: 20px;
+        }
+      }
+
+      .img {
+        img {
+          width: 250px;
         }
       }
     }
@@ -126,5 +172,24 @@ export const StyledContainer = styled.div`
         }
       }
     }
+  }
+
+  li:hover {
+    transform: rotate(3deg);
+    opacity: 0.8;
+    cursor: pointer;
+  }
+
+  li:hover .test.buy-now {
+    opacity: 0.5;
+  }
+
+  li:hover .test.buy-now button {
+    opacity: 0.5;
+  }
+
+  .test.buy-now:hover {
+    opacity: 0.8;
+    background-color: red;
   }
 `;

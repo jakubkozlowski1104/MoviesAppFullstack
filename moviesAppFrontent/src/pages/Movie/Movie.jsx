@@ -4,6 +4,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { StyledContainer } from './Movie.styles';
 import { useState, useEffect } from 'react';
 import CustomAlert from '../../Components/Alert/CustomAlert';
+import { useNavigate } from 'react-router-dom';
 
 const Movie = () => {
   const location = useLocation();
@@ -14,6 +15,7 @@ const Movie = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' or 'error'
   const [showAlert, setShowAlert] = useState(false); // New state for alert vis
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -76,6 +78,11 @@ const Movie = () => {
 
   const handleReadMore = () => {
     setIsReadMore(!isReadMore);
+  };
+
+  const goToMovie = (movie) => {
+    navigate(`/movie/${movie.id}`, { state: { movie } });
+    fetchRandomMovies();
   };
 
   return (
@@ -156,10 +163,17 @@ const Movie = () => {
         <h1>Filmy które mogą ci się spodobać</h1>
         <div className="movies">
           {randomMovies.map((movie) => (
-            <li key={movie.id} className="movie">
+            <li
+              key={movie.id}
+              className="movie"
+              onClick={() => goToMovie(movie)}
+            >
               <div className="name">{movie.name}</div>
               <div className="img">
                 <img src={movie.photoPath} alt={movie.name} />
+              </div>
+              <div className="test buy-now">
+                <button>Zobacz</button>
               </div>
             </li>
           ))}
