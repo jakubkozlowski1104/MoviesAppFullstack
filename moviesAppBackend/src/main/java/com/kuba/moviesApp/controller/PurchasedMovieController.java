@@ -48,14 +48,15 @@ public class PurchasedMovieController {
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new IllegalArgumentException("Movie not found with id: " + movieId));
 
-        // Sprawdzenie, czy użytkownik ma wystarczająco środków na koncie
-        if (user.getWallet() < movie.getPrice()) { //208
-            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Insufficient funds to purchase the movie.");
+        // Sprawdzenie, czy użytkownik już zakupił film
+        boolean alreadyPurchased = purchasedMovieRepository.existsByUserAndMovie(user, movie);
+        if (alreadyPurchased) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("You have already purchased this movie.");
         }
 
-        boolean alreadyPurchased = purchasedMovieRepository.existsByUserAndMovie(user, movie);
-        if (alreadyPurchased) { //204
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("You have already purchased this movie.");
+        // Sprawdzenie, czy użytkownik ma wystarczająco środków na koncie
+        if (user.getWallet() < movie.getPrice()) {
+            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Insufficient funds to purchase the movie.");
         }
 
         // Odejmowanie środków z konta użytkownika
@@ -68,8 +69,9 @@ public class PurchasedMovieController {
 
         purchasedMovieRepository.save(purchasedMovie);
 
-        return ResponseEntity.ok("Movie purchased successfully."); //200
+        return ResponseEntity.ok("Movie purchased successfully.");
     }
+
 
 
 }
