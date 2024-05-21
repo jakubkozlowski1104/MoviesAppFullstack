@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MovieService {
 
@@ -22,6 +24,9 @@ public class MovieService {
         return movieRepository.findAll(pageable);
     }
 
+    public List<Movie> getAllMoviesWithoutPagination() {
+        return movieRepository.findAll();
+    }
     public long countAllMovies() {
         return movieRepository.count();
     }
