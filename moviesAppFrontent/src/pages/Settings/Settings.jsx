@@ -9,6 +9,7 @@ const Settings = () => {
   const [amountToAdd, setAmountToAdd] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('success'); // 'success' or 'error'
+  const [showAlert, setShowAlert] = useState(false); // New state for alert visibility
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -59,7 +60,13 @@ const Settings = () => {
       console.error('Error adding amount to wallet:', error);
       setAlertMessage('Nie udało się dodać środków do portfela.');
       setAlertSeverity('error');
+    } finally {
+      setShowAlert(true);
     }
+  };
+
+  const handleCloseAlert = () => {
+    setShowAlert(false);
   };
 
   return (
@@ -82,7 +89,13 @@ const Settings = () => {
             />
             <button onClick={handleAddToWallet}>Dodaj do portfela</button>
           </div>
-          {alertMessage && <CustomAlert message={alertMessage} severity={alertSeverity} />}
+          {showAlert && (
+            <CustomAlert
+              message={alertMessage}
+              severity={alertSeverity}
+              onClose={handleCloseAlert}
+            />
+          )}
         </div>
       )}
     </StyledContainer>

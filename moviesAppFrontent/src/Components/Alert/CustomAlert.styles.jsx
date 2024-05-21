@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+import { Button as MuiButton } from '@mui/material';
 
-export const StyledCenter = styled.div`
-  background-color: darkblue;
-  display: flex;
-  justify-content: center;
+export const StyledButton = styled(MuiButton)`
+  cursor: pointer;
+  color: red;
+  background-color: red;
 `;
