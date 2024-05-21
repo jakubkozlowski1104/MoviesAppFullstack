@@ -83,8 +83,10 @@ export const StyledContainer = styled.div`
     gap: 30px;
 
     .grafic-info {
+      margin-top: 50px;
       display: flex;
       flex-direction: column;
+      transition: 0;
 
       .rating {
         display: flex;

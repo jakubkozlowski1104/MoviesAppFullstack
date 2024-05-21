@@ -98,14 +98,14 @@ const Movie = () => {
       </div>
       <div className="center">
         <div className="grafic-info">
+          <div className="img">
+            <img src={movie.photoPath} alt={movie.name} />
+          </div>
           <div className="rating">
             <i>
               <FontAwesomeIcon icon={faStar} />
             </i>
             <p>{(movie.rating / 10).toFixed(1).replace('.', ',')}</p>
-          </div>
-          <div className="img">
-            <img src={movie.photoPath} alt={movie.name} />
           </div>
         </div>
         <div className="info">
