@@ -71,7 +71,8 @@ const Movie = () => {
       console.log('Response:', data);
     } catch (error) {
       console.error('Error:', error);
-      alert('An error occurred while purchasing the movie.');
+      setAlertMessage('Aby zakupić film, zarejestruj się lub zaloguj!');
+      setAlertSeverity('error');
     } finally {
       setShowAlert(true);
     }

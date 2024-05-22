@@ -53,19 +53,17 @@ export const StyledCenter = styled.div`
   }
 
   ul {
-    width: 80%;
+    width: 72%;
     background-color: white;
     height: 100%;
     display: flex;
     flex-wrap: wrap;
-    gap: 50px; /* Zwiększenie odstępu między elementami */
+    gap: 63px; /* Zwiększenie odstępu między elementami */
 
     li {
       list-style: none;
       flex-grow: 1; /* Elementy będą się równomiernie rozciągać, aby wypełnić dostępną przestrzeń */
-      max-width: calc(
-        20% - 40px
-      ); /* Maksymalna szerokość każdego elementu, uwzględniając odstępy między nimi */
+      max-width: 200px;
       margin-bottom: 20px; /* Odstęp między rzędami */
 
       .img-info {
@@ -79,7 +77,7 @@ export const StyledCenter = styled.div`
 
         img {
           border-radius: 10px;
-          width: 270px;
+          width: 220px;
         }
 
         .buy-now {

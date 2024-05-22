@@ -104,7 +104,7 @@ const SignUp = () => {
     <StyledCenter>
       <div className="wrapper">
         <StyledLogin>
-          <h1>Sign up and start traveling!</h1>
+          <h1>Sign up and watch movies!</h1>
           <StyledForm onSubmit={handleSubmit}>
             {dataExistError.length > 0 && (
               <DataExistError>{dataExistError}</DataExistError>

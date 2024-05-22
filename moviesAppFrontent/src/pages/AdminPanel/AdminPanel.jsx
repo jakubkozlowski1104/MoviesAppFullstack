@@ -3,6 +3,61 @@ import axios from 'axios';
 import { StyledCenter } from './AdminPanel.styles';
 import Modal from 'react-modal';
 
+const customModalStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    padding: '20px',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    width: '50%',
+    backgroundColor: '#fff',
+  },
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+  },
+};
+
+const formStyles = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '20px',
+};
+
+const buttonStyles = `
+  .btn {
+    margin: 0 5px;
+    margin-bottom: 15px;
+    display: inline-block;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 4px;
+    font-size: 14px;
+    height: 30px;
+    padding: 0px 20px;
+    text-shadow: rgb(0 0 0 / 25%) 0px 3px 8px;
+    background: linear-gradient(
+      92.88deg,
+      rgb(69, 94, 181) 9.16%,
+      rgb(86, 67, 204) 43.89%,
+      rgb(103, 63, 215) 64.72%
+    );
+    transition: all 0.5s ease 0s;
+
+    &:hover {
+      box-shadow: rgb(80 63 205 / 50%) 0px 1px 40px;
+      transition: all 0.1s ease 0s;
+    }
+  }
+`;
+
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -16,7 +71,7 @@ const AdminPanel = () => {
       username: user.username,
       email: user.email,
       password: user.password,
-    }); // Ustawienie danych użytkownika w stanie początkowym formularza edycji
+    });
     setModalIsOpen(true);
   };
 
@@ -24,7 +79,7 @@ const AdminPanel = () => {
   const closeEditModal = () => {
     setSelectedUser(null);
     setModalIsOpen(false);
-    setUpdatedUserData({}); // Zresetowanie danych użytkownika po zamknięciu modalu
+    setUpdatedUserData({});
   };
 
   const handleEditUser = async () => {
@@ -37,6 +92,7 @@ const AdminPanel = () => {
           password: updatedUserData.password,
         }
       );
+      console.log(response);
       // Aktualizacja danych użytkownika w lokalnym stanie
       setUsers(
         users.map((user) => {
@@ -78,6 +134,7 @@ const AdminPanel = () => {
 
   return (
     <StyledCenter>
+      <style>{buttonStyles}</style>
       <h1>Admin Panel</h1>
       <table>
         <thead>
@@ -97,19 +154,28 @@ const AdminPanel = () => {
               <td>{user.password}</td>
               <td>{user.admin ? 'Yes' : 'No'}</td>
               <td>
-                <button onClick={() => handleDeleteUser(user.id)}>
+                <button
+                  onClick={() => handleDeleteUser(user.id)}
+                  className="btn"
+                >
                   Delete
                 </button>
-                <button onClick={() => openEditModal(user)}>Update</button>
+                <button onClick={() => openEditModal(user)} className="btn">
+                  Update
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <Modal isOpen={modalIsOpen} onRequestClose={closeEditModal}>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeEditModal}
+        style={customModalStyles}
+      >
         <h2>Edit User</h2>
-        <form>
+        <form style={formStyles}>
           <label>
             Name:
             <input
@@ -149,10 +215,10 @@ const AdminPanel = () => {
               }
             />
           </label>
-          <button type="button" onClick={handleEditUser}>
+          <button type="button" onClick={handleEditUser} className="btn">
             Save
           </button>
-          <button type="button" onClick={closeEditModal}>
+          <button type="button" onClick={closeEditModal} className="btn">
             Cancel
           </button>
         </form>
