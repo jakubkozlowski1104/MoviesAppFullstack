@@ -10,8 +10,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "USERS")
-@Getter
 @Setter
+@Getter
+@AllArgsConstructor
 @NoArgsConstructor
 public class User {
     @Id

@@ -10,6 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+
 @RequestMapping("/movies")
 @RestController
 @CrossOrigin("*")
@@ -43,6 +47,33 @@ public class MovieController {
             return movieService.getAllMovies(pageable);
         }
     }
+
+    @GetMapping("/random")
+    public List<Movie> getRandomMovies(@RequestParam(required = false) List<Long> excludedIds) {
+        List<Movie> allMovies = movieService.getAllMoviesWithoutPagination();
+
+        // Remove excluded movies
+        if (excludedIds != null && !excludedIds.isEmpty()) {
+            allMovies = allMovies.stream()
+                    .filter(movie -> !excludedIds.contains(movie.getId()))
+                    .collect(Collectors.toList());
+        }
+
+        int totalMovies = allMovies.size();
+        int numberOfRandomMovies = Math.min(totalMovies, 3); // Limit to 3 random movies or total available movies
+
+        // Get 3 random movies
+        Random random = new Random();
+        List<Movie> randomMovies = random.ints(0, totalMovies)
+                .distinct()
+                .limit(numberOfRandomMovies)
+                .mapToObj(allMovies::get)
+                .collect(Collectors.toList());
+
+        return randomMovies;
+    }
+
+
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
